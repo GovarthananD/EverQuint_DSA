@@ -1,0 +1,29 @@
+body{
+    font-family: Arial, sans-serif;
+text-align: center;
+background: #f4f6f8;
+padding: 20px;
+}
+
+input {
+width: 350px;
+padding: 10px;
+font-size: 16px;
+}
+button {
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+}
+svg {
+margin-top: 30px;
+background: white;
+border: 1px solid #ccc;
+}
+.block {
+fill: #666;
+}
+.water {
+fill: #4da6ff;
+opacity: 0.8;
+}

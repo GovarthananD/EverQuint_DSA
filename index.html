@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Tank (Trapping Rain Water)</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    input {
+      width: 360px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    svg {
+      margin-top: 30px;
+      background: white;
+      border: 1px solid #ccc;
+    }
+
+    .block {
+      fill: #666;
+    }
+
+    .water {
+      fill: #4da6ff;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>💧 Water Tank (Trapping Rain Water)</h1>
+
+  <input
+    id="inputValue"
+    value="0,4,0,0,0,6,0,6,4,0"
+  />
+  <button onclick="WaterTank()">Visualize</button>
+
+  <h4 id="result"></h4>
+
+  <svg id="svg" width="700" height="300"></svg>
+
+  <script>
+    function WaterTank() {
+
+      const heights = document
+        .getElementById("inputValue")
+        .value
+        .split(',')
+        .map(Number);
+
+      const svg = document.getElementById("svg");
+      svg.innerHTML = "";
+
+      const width = 40;
+      const gap = 10;
+      const scale = 20;
+
+      const leftMax = [];
+      const rightMax = [];
+
+
+      leftMax[0] = heights[0];
+      for (let i = 1; i < heights.length; i++) {
+        leftMax[i] = Math.max(leftMax[i - 1], heights[i]);
+      }
+
+    
+      rightMax[heights.length - 1] = heights[heights.length - 1];
+      for (let i = heights.length - 2; i >= 0; i--) {
+        rightMax[i] = Math.max(rightMax[i + 1], heights[i]);
+      }
+
+      let totalWater = 0;
+
+      heights.forEach((height, index) => {
+
+        const x = index * (width + gap) + 20;
+        const blockHeight = height * scale;
+        const y = 250 - blockHeight;
+
+  
+        svg.innerHTML += `
+          <rect class="block"
+            x="${x}"
+            y="${y}"
+            width="${width}"
+            height="${blockHeight}" />
+        `;
+
+    
+        const waterHeight =
+          Math.min(leftMax[index], rightMax[index]) - height;
+
+        if (waterHeight > 0) {
+          totalWater += waterHeight;
+
+          svg.innerHTML += `
+            <rect class="water"
+              x="${x}"
+              y="${y - waterHeight * scale}"
+              width="${width}"
+              height="${waterHeight * scale}" />
+          `;
+        }
+      });
+
+      document.getElementById("result").innerText =
+        `Stored Water: ${totalWater} Units`;
+    }
+
+    WaterTank();
+  </script>
+
+</body>
+</html>
